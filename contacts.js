@@ -33,7 +33,7 @@ const addContact = async ({ name, email, phone }) => {
 const removeContact = async contactId => {
   const contacts = await listContacts();
   const index = contacts.findIndex(item => item.id === contactId.toString());
-  console.log(index);
+
   if (index === -1) {
     return null;
   }
