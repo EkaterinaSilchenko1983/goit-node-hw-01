@@ -1,16 +1,18 @@
-const yargs = require("yargs");
-const { hideBin } = require("yargs/helpers");
+// const yargs = require('yargs');
+// const { hideBin } = require('yargs/helpers');
 
-const contactsOperations = require("./contacts");
+const argv = require('yargs').argv;
+
+const contactsOperations = require('./contacts');
 
 const invokeAction = async ({ action, id, name, email, phone }) => {
   switch (action) {
-    case "list":
+    case 'list':
       const contacts = await contactsOperations.listContacts();
-      console.log(contacts);
+      console.table(contacts);
       break;
 
-    case "get":
+    case 'get':
       const contact = await contactsOperations.getContactById(id);
       if (!contact) {
         throw new Error(`Contact with id=${id} not found`);
@@ -18,7 +20,7 @@ const invokeAction = async ({ action, id, name, email, phone }) => {
       console.log(contact);
       break;
 
-    case "add":
+    case 'add':
       const newContact = await contactsOperations.addContact({
         name,
         email,
@@ -27,17 +29,16 @@ const invokeAction = async ({ action, id, name, email, phone }) => {
       console.log(newContact);
       break;
 
-    case "remove":
+    case 'remove':
       const removeContact = await contactsOperations.removeContact(id);
       console.log(removeContact);
       break;
 
     default:
-      console.warn("\x1B[31m Unknown action type!");
+      console.warn('\x1B[31m Unknown action type!');
   }
 };
 
-const arr = hideBin(process.argv);
-const { argv } = yargs(arr);
-// const { argv } = yargs(process.argv.slice(2));
+// const arr = hideBin(process.argv);
+// const { argv } = yargs(arr);
 invokeAction(argv);
